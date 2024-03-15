@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<odoo>
+    
+    <record id="sales_commissions_list_view" model="ir.ui.view">
+        <field name="name">sales.commissions.view.tree</field>
+        <field name="model">sales.commissions</field>
+        <field name="arch" type="xml">
+            <tree string="Channel" sample="1" editable="bottom">
+                <field name="min_achievement"/>
+                <field name="commission_rate" />
+            </tree>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="sales_commissions_plans_action" model="ir.actions.act_window">
+        <field name="name">Sales Commissions</field>
+        <field name="res_model">sales.commissions.plans</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No data found!
+            </p>
+            <p>
+                Use this menu to have an overview of your Commission Plans.
+            </p>
+        </field>
+    </record>
+    <record id="sales_commissions_plans_list_view" model="ir.ui.view">
+        <field name="name">sales.commissions.plans.view.tree</field>
+        <field name="model">sales.commissions.plans</field>
+        <field name="arch" type="xml">
+            <tree string="Channel" sample="1" open_form_view='True'
+            decoration-success="stage == 'done'"
+            decoration-bf="stage == 'approved'">
+                <field name="name" />
+                <field name="start_date" />
+                <field name="end_date" />
+                <field name="target" />
+                <field name="company_id" />
+                <field name="stage" />
+                <field name="team_id" />
+                <field name="salesperson_id" />
+            </tree>
+        </field>
+    </record>
+    <record id="sales_commissions_plans_form_view" model="ir.ui.view">
+        <field name="name">sales.commissions.plans.view.form</field>
+        <field name="model">sales.commissions.plans</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="stage" widget="statusbar"
+                        statusbar_visible="draft, approved, done"
+                        options="{'clickable':'True'}" invisible = "stage in ['cancelled','done']"/>
+                    <button name="action_stage_approve" type="object" string="Approve"
+                        class="oe_highlight" invisible = "stage in ['done', 'cancelled']"/>
+                    <button name="action_stage_done" type="object" string="Mark as Done" class="oe_highlight" invisible = "stage in ['draft', 'done', 'cancelled']"/>
+                    <button name="action_stage_cancelled" type="object" string="Cancel" invisible = "stage in ['cancelled', 'done']"/> 
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" /> 
+                            <field name="start_date" string="Schedule Date" widget="daterange" options="{'end_date_field': 'end_date'}" />
+                            <field name="end_date" invisible="1" />
+                            <field name="target" />
+                            <field name="product_ids" widget="many2many_tags" />
+                        </group>
+                        <group>
+                            <field name="company_id" />
+                            <field name="team_id" />
+                            <field name="salesperson_id" invisible="not team_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Commissions">
+                            <field name="commissions_ids" readonly = "stage in ['approved', 'done', 'cancelled']" />
+                        </page>
+                        <page string="Targets">
+                            <field name="target_ids" readonly = "stage in ['approved', 'done', 'cancelled']" />
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

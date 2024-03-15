@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="sales_commissions_reporting_action" model="ir.actions.act_window">
+        <field name="name">Sales Commissions</field>
+        <field name="res_model">sales.commissions.plans.report</field>
+        <field name="view_mode">tree,form,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No data found!
+            </p>
+            <p>
+                Use this menu to have an overview of your Commission Plans.
+            </p>
+        </field>
+    </record>
+    <record id="sales_commissions_reporting_list_view" model="ir.ui.view">
+        <field name="name">sales.commissions.reporting.view.tree</field>
+        <field name="model">sales.commissions.plans.report</field>
+        <field name="arch" type="xml">
+            <tree string="Channel" sample="1">
+                <field name="commission_plan_id"/>
+                <field name="target_id"/>
+                <field name="team_id"/>
+                <field name="salesperson_id"/>
+                <field name="achieved_amount"/>
+                <field name="target_amount"/>
+                <field name="desired_commission_rate" widget="progressbar"/>
+            </tree>
+        </field>
+    </record>
+
+     <record id="sales_commissions_reporting_view_search" model="ir.ui.view">
+        <field name="name">sales.commissions.reporting.view.search</field>
+        <field name="model">sales.commissions.plans.report</field>
+        <field name="arch" type="xml">
+            <search string="Search Bar">
+                <field name="salesperson_id"/>
+                <field name="team_id"/>
+                <separator />
+                <group expand="1" name="Group By">
+                    <filter name="target_id" string="Quarter Period" context="{'group_by': 'target_id'}" />
+                    <filter name="commission_plan_id" string="Commission Plan" context="{'group_by': 'commission_plan_id'}" />
+                </group>
+            </search>
+        </field>
+    </record> 
+     <record id="sales_commissions_reporting_view_pivot" model="ir.ui.view">
+        <field name="name">sales.commissions.reporting.view.pivot</field>
+        <field name="model">sales.commissions.plans.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Commissions Analysis" sample="1">
+                <field name="target_id" type="col"/>
+                <field name="commission_plan_id" type="row"/>
+                <field name="pivot_target_amount" type="measure"/>
+                <field name="pivot_achieved_amount" type="measure"/>
+            </pivot>
+        </field>
+   </record>
+</odoo>
